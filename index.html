@@ -3,57 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Welcome Robot</title>
+    <title>IMESHZZ - WhatsApp Welcome</title>
     <style>
         body {
+            margin: 0;
             background-color: #0d1117;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            overflow: hidden;
+            position: relative;
         }
-        .container {
+        /* පසුබිමේ කෝඩ් වැටෙන එක සජීවීකරණය කිරීම */
+        .matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: rgba(37, 211, 102, 0.15);
+            font-size: 14px;
+            line-height: 14px;
+            pointer-events: none;
+            white-space: pre;
+            overflow: hidden;
+            z-index: 1;
+        }
+        /* මැද තියෙන ප්‍රධාන පෙට්ටිය */
+        .content-box {
+            position: relative;
+            z-index: 2;
             text-align: center;
+            background: rgba(13, 17, 23, 0.85);
+            padding: 30px 40px;
+            border-radius: 20px;
+            border: 1px solid #25d366;
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.3);
         }
-        .robot {
-            font-size: 80px;
+        .welcome-text {
+            color: #25d366;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
+        }
+        .name-badge {
             display: inline-block;
-            animation: wave 1.5s infinite;
-            transform-origin: 70% 70%;
-        }
-        @keyframes wave {
-            0% { transform: rotate(0deg); }
-            20% { transform: rotate(14deg); }
-            40% { transform: rotate(-8deg); }
-            60% { transform: rotate(14deg); }
-            80% { transform: rotate(-4deg); }
-            100% { transform: rotate(0deg); }
-        }
-        .welcome-box {
-            background-color: #25d366;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 25px;
+            background: #25d366;
+            color: #0d1117;
+            padding: 8px 20px;
+            border-radius: 15px;
             font-size: 20px;
             font-weight: bold;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            display: inline-block;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.6);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="robot">🤖👋</div>
-        <div class="welcome-box">
-            Hi welcome to My Whatsapp chat!
-        </div>
+    <!-- පසුබිම් කෝඩ් ටෙස්ට් වන කොටස -->
+    <div class="matrix-bg" id="matrix"></div>
+
+    <div class="content-box">
+        <div class="welcome-text">Welcome to My Whatsapp chat!</div>
+        <div class="name-badge">IMESHZZ 🚀</div>
     </div>
 
+    <script>
+        // පසුබිමේ කෝඩ් ස්ක්‍රෝල් වන විදිහ සකස් කිරීම
+        const matrix = document.getElementById('matrix');
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%+-/~{}[];<>_IMESHZZ";
+        const columns = Math.floor(window.innerWidth / 20);
+        
+        let drops = [];
+        for(let i=0; i<columns; i++) {
+            drops[i] = 1;
+        }
+
+        function drawMatrix() {
+            let text = "";
+            for(let i=0; i<drops.length; i++) {
+                let char = characters.charAt(Math.floor(Math.random() * characters.length));
+                text += char + " ";
+                if(drops[i]*14 > window.innerHeight && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+            matrix.innerText = text.repeat(30);
+        }
+        setInterval(drawMatrix, 50);
+    </script>
 </body>
 </html>
-
